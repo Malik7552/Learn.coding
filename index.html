@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ساعدني أتعلم / Learn Coding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f0f8ff;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+        }
+        p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 15px auto;
+            line-height: 1.6;
+            text-align: justify;
+        }
+        #videoContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        iframe {
+            width: 560px;
+            height: 315px;
+            border: none;
+        }
+        textarea {
+            width: 560px;
+            height: 150px;
+            margin-top: 20px;
+            font-size: 16px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">ساعدني أتعلم البرمجة</h1>
+
+    <select id="language">
+        <option value="ar">العربية</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+    </select>
+
+    <p id="lesson">
+        البرمجة ممتعة! في هذا الدرس سنتعلم أساسيات HTML، مثل كتابة العناوين والفقرات، إضافة الصور، الروابط، والقوائم. سنتعرف أيضًا على هيكل الصفحة الصحيح، العناصر الأساسية، وكيفية ترتيب المحتوى بشكل منظم وجميل.
+    </p>
+
+    <!-- فيديو وزر Next فوقه -->
+    <div id="videoContainer">
+        <iframe id="video" src="https://www.youtube.com/embed/pQN-pnXPaVg" allowfullscreen></iframe>
+        <button id="nextAbove">التالي / Next</button>
+    </div>
+
+    <!-- محرر الكود -->
+    <h3>جرّب كتابة الكود هنا:</h3>
+    <textarea id="codeArea">
+<h1>مرحبا بك في موقع تعلم البرمجة</h1>
+<p>هذا مثال على فقرة HTML يمكنك تعديلها وتجربتها.</p>
+    </textarea>
+    <button id="runCode">تشغيل الكود / Run Code</button>
+    <iframe id="output"></iframe>
+
+    <div>
+        <button id="prev">السابق / Previous</button>
+        <button id="next">التالي / Next</button>
+    </div>
+
+    <script>
+        const languageSelect = document.getElementById("language");
+        const title = document.getElementById("title");
+        const lesson = document.getElementById("lesson");
+        const video = document.getElementById("video");
+        const prevBtn = document.getElementById("prev");
+        const nextBtn = document.getElementById("next");
+        const nextAboveBtn = document.getElementById("nextAbove");
+
+        const codeArea = document.getElementById("codeArea");
+        const runBtn = document.getElementById("runCode");
+        const output = document.getElementById("output");
+
+        const lessons = [
+            {
+                ar: {
+                    title: "درس 1: أساسيات HTML",
+                    text: "البرمجة ممتعة! في هذا الدرس سنتعلم أساسيات HTML، مثل كتابة العناوين والفقرات، إضافة الصور، الروابط، والقوائم. سنتعرف أيضًا على هيكل الصفحة الصحيح، العناصر الأساسية، وكيفية ترتيب المحتوى بشكل منظم وجميل.",
+                    video: "https://www.youtube.com/embed/pQN-pnXPaVg"
+                },
+                en: {
+                    title: "Lesson 1: HTML Basics",
+                    text: "Coding is fun! In this lesson, we will learn the basics of HTML, like writing headings, paragraphs, adding images, links, and lists. We will also explore the proper page structure, basic elements, and how to organize content neatly.",
+                    video: "https://www.youtube.com/embed/pQN-pnXPaVg"
+                },
+                es: {
+                    title: "Lección 1: Fundamentos de HTML",
+                    text: "¡Programar es divertido! En esta lección aprenderemos los conceptos básicos de HTML, como escribir títulos, párrafos, agregar imágenes, enlaces y listas. También exploraremos la estructura correcta de la página, los elementos básicos y cómo organizar el contenido de manera ordenada.",
+                    video: "https://www.youtube.com/embed/pQN-pnXPaVg"
+                }
+            },
+            {
+                ar: {title: "درس 2: أساسيات CSS", text: "الـCSS تجعل صفحاتك جميلة! سنتعلم تغيير الألوان والخطوط والخلفيات.", video: "https://www.youtube.com/embed/yfoY53QXEnI"},
+                en: {title: "Lesson 2: CSS Basics", text: "CSS makes your pages beautiful! We will learn to change colors, fonts, and backgrounds.", video: "https://www.youtube.com/embed/yfoY53QXEnI"},
+                es: {title: "Lección 2: Fundamentos de CSS", text: "¡CSS hace que tus páginas sean hermosas! Aprenderemos a cambiar colores, fuentes y fondos.", video: "https://www.youtube.com/embed/yfoY53QXEnI"}
+            },
+            {
+                ar: {title: "درس 3: أساسيات JavaScript", text: "الـJavaScript تضيف التفاعل! سنتعلم تغيير النصوص والأحداث عند الضغط على الأزرار.", video: "https://www.youtube.com/embed/W6NZfCO5SIk"},
+                en: {title: "Lesson 3: JavaScript Basics", text: "JavaScript adds interactivity! We will learn to change text and handle events on button clicks.", video: "https://www.youtube.com/embed/W6NZfCO5SIk"},
+                es: {title: "Lección 3: Fundamentos de JavaScript", text: "¡JavaScript añade interactividad! Aprenderemos a cambiar texto y manejar eventos al hacer clic en botones.", video: "https://www.youtube.com/embed/W6NZfCO5SIk"}
+            }
+        ];
+
+        let currentLesson = 0;
+
+        function updateLesson() {
+            const lang = languageSelect.value;
+            title.textContent = lessons[currentLesson][lang].title;
+            lesson.textContent = lessons[currentLesson][lang].text;
+            video.src = lessons[currentLesson][lang].video;
+        }
+
+        languageSelect.addEventListener("change", updateLesson);
+
+        prevBtn.addEventListener("click", () => {
+            if(currentLesson > 0) currentLesson--;
+            updateLesson();
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if(currentLesson < lessons.length - 1) currentLesson++;
+            updateLesson();
+        });
+
+        nextAboveBtn.addEventListener("click", () => {
+            if(currentLesson < lessons.length - 1) currentLesson++;
+            updateLesson();
+        });
+
+        runBtn.addEventListener("click", () => {
+            const code = codeArea.value;
+            output.srcdoc = code;
+        });
+
+        // عرض الدرس الأول عند التحميل
+        updateLesson();
+    </script>
+</body>
+</html>
